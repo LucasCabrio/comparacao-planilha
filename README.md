@@ -1,67 +1,23 @@
 # Comparador de Planilhas
 
-Projeto desenvolvido em **Java com Spring Boot** para realizar cadastro e comparação de planilhas utilizando **MongoDB**.
+Projeto desenvolvido em **Java com Spring Boot** para cadastro de usuários, importação de arquivos CSV, cadastro de planilhas e comparação de planilhas utilizando **MongoDB**.
 
-## Estrutura do projeto
+## Objetivo
 
-comparador-planilhas
-- api-usuarios
-- api-planilhas
+O sistema foi criado para simular um fluxo integrado entre usuários e planilhas, permitindo:
 
-## Tecnologias
-
-- Java 21
-- Spring Boot
-- MongoDB
-- Swagger
-- Maven
-
-## APIs
-
-### API Usuários
-Responsável pelo cadastro de usuários.
-
-Endpoints principais:
-
-GET /usuarios  
-POST /usuarios  
-GET /usuarios/{id}
-
-Swagger:
-
-http://localhost:8080/swagger-ui/index.html
+- cadastrar usuários
+- importar usuários por arquivo CSV
+- cadastrar planilhas
+- comparar planilhas cadastradas
+- utilizar uma interface web com **Thymeleaf**
+- testar os endpoints via **Swagger** e **Postman**
 
 ---
 
-### API Planilhas
-Responsável por cadastrar planilhas e realizar comparações.
+## Estrutura do projeto
 
-Endpoints principais:
-
-GET /planilhas  
-POST /planilhas  
-GET /planilhas/{id}
-
-Comparações:
-
-GET /comparacoes  
-POST /comparacoes  
-GET /comparacoes/{id}
-
-Swagger:
-
-http://localhost:8081/swagger-ui/index.html
-
-## Banco de Dados
-
-MongoDB
-
-Collections:
-
-usuarios  
-planilhas  
-comparacoes
-
-## Autor
-
-Lucas Cabrio
+```text
+comparador-planilha/
+├── api-usuarios/
+└── api-planilhas/
