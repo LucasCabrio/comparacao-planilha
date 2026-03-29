@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importar Arquivos</title>
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
+</head>
+<body>
+<main class="page-shell">
+    <section class="hero">
+        <span class="eyebrow">Central de Planilhas</span>
+        <div class="hero-grid">
+            <div>
+                <h1>Importe arquivos CSV com uma interface mais clara e agradável.</h1>
+                <p>Envie a planilha, acompanhe o resultado da leitura e mantenha o fluxo de cadastro e compra no mesmo portal visual.</p>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <strong>Fluxo rapido</strong>
+                    <span>Importe dados em poucos cliques com feedback imediato.</span>
+                </div>
+                <div class="stat-card">
+                    <strong>Mesmo padrao visual</strong>
+                    <span>Cadastro de usuario e compra de planilha seguem a mesma identidade.</span>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-tabs">
+            <a class="active" th:href="@{/upload}">Importar arquivo</a>
+            <a th:href="@{/usuarios/novo}">Criar usuario</a>
+            <a th:href="@{/planilhas/comprar}">Comprar planilha</a>
+        </nav>
+    </section>
+
+    <section class="content-grid">
+        <article class="panel">
+            <h2>Enviar CSV</h2>
+            <p>Selecione um arquivo `.csv` com os dados dos usuarios. Depois do envio, a lista processada aparece logo abaixo.</p>
+
+            <div class="feedback" th:if="${mensagem}" th:text="${mensagem}"></div>
+
+            <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+                <div class="form-grid">
+                    <div class="field full">
+                        <label for="file">Arquivo CSV</label>
+                        <input id="file" type="file" name="file" accept=".csv" required>
+                        <small>Formato aceito: `.csv`.</small>
+                    </div>
+                </div>
+                <div class="cta-row">
+                    <button class="btn btn-primary" type="submit">Importar agora</button>
+                    <a class="btn btn-secondary" th:href="@{/planilhas/comprar}">Ir para compra de planilha</a>
+                </div>
+            </form>
+
+            <div class="table-wrap" th:if="${usuarios != null and !#lists.isEmpty(usuarios)}">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Logradouro</th>
+                        <th>Numero</th>
+                        <th>Bairro</th>
+                        <th>Cidade</th>
+                        <th>CEP</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.nome}"></td>
+                        <td th:text="${usuario.telefone}"></td>
+                        <td th:text="${usuario.logradouro}"></td>
+                        <td th:text="${usuario.numero}"></td>
+                        <td th:text="${usuario.bairro}"></td>
+                        <td th:text="${usuario.cidade}"></td>
+                        <td th:text="${usuario.cep}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <aside class="panel">
+            <h3>Como usar</h3>
+            <ul class="info-list">
+                <li>Suba o CSV para popular rapidamente a colecao de usuarios importados.</li>
+                <li>Use a tela de cadastro para registrar um usuario completo na API de usuarios.</li>
+                <li>Associe o `usuarioId` na compra da planilha para concluir o fluxo.</li>
+            </ul>
+        </aside>
+    </section>
+</main>
+</body>
+</html>

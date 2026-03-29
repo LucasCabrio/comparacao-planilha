@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Usuario</title>
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
+</head>
+<body>
+<main class="page-shell">
+    <section class="hero">
+        <span class="eyebrow">Cadastro de Usuario</span>
+        <div class="hero-grid">
+            <div>
+                <h1>Crie usuarios com dados completos e uma experiencia mais organizada.</h1>
+                <p>Preencha as informacoes pessoais e de endereco em uma tela unica, com retorno visual logo apos o envio.</p>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <strong>Cadastro completo</strong>
+                    <span>Nome, telefone e endereco no mesmo formulario.</span>
+                </div>
+                <div class="stat-card">
+                    <strong>Pronto para compra</strong>
+                    <span>O `id` gerado pode ser usado na compra da planilha.</span>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-tabs">
+            <a th:href="@{/upload}">Importar arquivo</a>
+            <a class="active" th:href="@{/usuarios/novo}">Criar usuario</a>
+            <a th:href="@{/planilhas/comprar}">Comprar planilha</a>
+        </nav>
+    </section>
+
+    <section class="content-grid">
+        <article class="panel">
+            <h2>Novo usuario</h2>
+            <p>Ao enviar este formulario, os dados sao publicados para a API de usuarios em `localhost:8080`.</p>
+
+            <div class="feedback" th:if="${mensagem}" th:text="${mensagem}"></div>
+            <div class="feedback-error" th:if="${erro}" th:text="${erro}"></div>
+
+            <form th:action="@{/usuarios/novo}" th:object="${usuario}" method="post">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="nome">Nome</label>
+                        <input id="nome" type="text" th:field="*{nome}" required>
+                    </div>
+                    <div class="field">
+                        <label for="telefone">Telefone</label>
+                        <input id="telefone" type="text" th:field="*{telefone}" required>
+                    </div>
+                    <div class="field full">
+                        <label for="logradouro">Logradouro</label>
+                        <input id="logradouro" type="text" th:field="*{endereco.logradouro}" required>
+                    </div>
+                    <div class="field">
+                        <label for="numero">Numero</label>
+                        <input id="numero" type="text" th:field="*{endereco.numero}" required>
+                    </div>
+                    <div class="field">
+                        <label for="cep">CEP</label>
+                        <input id="cep" type="text" th:field="*{endereco.cep}" required>
+                    </div>
+                    <div class="field">
+                        <label for="bairro">Bairro</label>
+                        <input id="bairro" type="text" th:field="*{endereco.bairro}" required>
+                    </div>
+                    <div class="field">
+                        <label for="cidade">Cidade</label>
+                        <input id="cidade" type="text" th:field="*{endereco.cidade}" required>
+                    </div>
+                </div>
+                <div class="cta-row">
+                    <button class="btn btn-primary" type="submit">Salvar usuario</button>
+                    <a class="btn btn-secondary" th:href="@{/planilhas/comprar}">Seguir para compra</a>
+                </div>
+            </form>
+
+            <div class="result-card" th:if="${usuarioCriado != null}">
+                <strong>Usuario salvo</strong>
+                <span>ID: <b th:text="${usuarioCriado.id}"></b></span><br>
+                <span>Nome: <b th:text="${usuarioCriado.nome}"></b></span><br>
+                <span>Telefone: <b th:text="${usuarioCriado.telefone}"></b></span>
+            </div>
+        </article>
+
+        <aside class="panel">
+            <h3>Dica de fluxo</h3>
+            <ul class="info-list">
+                <li>Cadastre o usuario primeiro para ter o `id` disponivel na compra da planilha.</li>
+                <li>Se a API de usuarios nao estiver rodando na porta `8080`, o envio nao vai concluir.</li>
+                <li>Depois do cadastro, copie o `id` mostrado no cartao de resultado.</li>
+            </ul>
+        </aside>
+    </section>
+</main>
+</body>
+</html>

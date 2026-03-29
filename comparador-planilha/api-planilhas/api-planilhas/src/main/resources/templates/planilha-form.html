@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar Planilha</title>
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
+</head>
+<body>
+<main class="page-shell">
+    <section class="hero">
+        <span class="eyebrow">Compra de Planilha</span>
+        <div class="hero-grid">
+            <div>
+                <h1>Registre a compra da planilha com contexto do arquivo e vinculo ao usuario.</h1>
+                <p>Informe os dados tecnicos da planilha e associe o `usuarioId` de quem esta realizando a compra.</p>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <strong>Validacao no backend</strong>
+                    <span>A compra so e salva quando o usuario existe na API de usuarios.</span>
+                </div>
+                <div class="stat-card">
+                    <strong>Visao rapida</strong>
+                    <span>Use a lista lateral para conferir IDs de usuarios ja cadastrados.</span>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-tabs">
+            <a th:href="@{/upload}">Importar arquivo</a>
+            <a th:href="@{/usuarios/novo}">Criar usuario</a>
+            <a class="active" th:href="@{/planilhas/comprar}">Comprar planilha</a>
+        </nav>
+    </section>
+
+    <section class="content-grid">
+        <article class="panel">
+            <h2>Nova compra</h2>
+            <p>Esses dados sao enviados para a API de planilhas e vinculados ao usuario informado.</p>
+
+            <div class="feedback" th:if="${mensagem}" th:text="${mensagem}"></div>
+            <div class="feedback-error" th:if="${erro}" th:text="${erro}"></div>
+
+            <form th:action="@{/planilhas/comprar}" th:object="${planilha}" method="post">
+                <div class="form-grid">
+                    <div class="field full">
+                        <label for="nomePlanilha">Nome da planilha</label>
+                        <input id="nomePlanilha" type="text" th:field="*{nomePlanilha}" required>
+                    </div>
+                    <div class="field">
+                        <label for="tamanhoArquivo">Tamanho do arquivo (MB)</label>
+                        <input id="tamanhoArquivo" type="number" step="0.01" min="0" th:field="*{tamanhoArquivo}" required>
+                    </div>
+                    <div class="field">
+                        <label for="usuarioId">Usuario</label>
+                        <input id="usuarioId" list="usuarios-cadastrados" type="text" th:field="*{usuarioId}" required>
+                        <datalist id="usuarios-cadastrados">
+                            <option th:each="usuario : ${usuariosDisponiveis}"
+                                    th:value="${usuario.id}"
+                                    th:text="${usuario.nome}">
+                            </option>
+                        </datalist>
+                    </div>
+                    <div class="field">
+                        <label for="qtdLinhas">Quantidade de linhas</label>
+                        <input id="qtdLinhas" type="number" min="1" th:field="*{qtdLinhas}" required>
+                    </div>
+                    <div class="field">
+                        <label for="qtdColunas">Quantidade de colunas</label>
+                        <input id="qtdColunas" type="number" min="1" th:field="*{qtdColunas}" required>
+                    </div>
+                    <div class="field">
+                        <label for="status">Status</label>
+                        <select id="status" th:field="*{status}">
+                            <option th:value="true">Ativa</option>
+                            <option th:value="false">Inativa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cta-row">
+                    <button class="btn btn-primary" type="submit">Registrar compra</button>
+                    <a class="btn btn-secondary" th:href="@{/usuarios/novo}">Cadastrar outro usuario</a>
+                </div>
+            </form>
+
+            <div class="result-card" th:if="${planilhaCriada != null}">
+                <strong>Compra registrada</strong>
+                <span>Planilha: <b th:text="${planilhaCriada.nomePlanilha}"></b></span><br>
+                <span>Usuario: <b th:text="${planilhaCriada.usuarioId}"></b></span><br>
+                <span>Linhas x colunas: <b th:text="${planilhaCriada.qtdLinhas + ' x ' + planilhaCriada.qtdColunas}"></b></span>
+            </div>
+        </article>
+
+        <aside class="panel">
+            <h3>Usuarios disponiveis</h3>
+            <ul class="info-list" th:if="${usuariosDisponiveis != null and !#lists.isEmpty(usuariosDisponiveis)}">
+                <li th:each="usuario : ${usuariosDisponiveis}">
+                    <strong th:text="${usuario.nome}"></strong>
+                    <span th:text="${usuario.id}"></span>
+                </li>
+            </ul>
+            <ul class="info-list" th:if="${usuariosDisponiveis == null or #lists.isEmpty(usuariosDisponiveis)}">
+                <li>Nenhum usuario foi carregado da API no momento. Voce ainda pode informar o `usuarioId` manualmente.</li>
+            </ul>
+        </aside>
+    </section>
+</main>
+</body>
+</html>
