@@ -21,15 +21,16 @@
                     <span>Nome, telefone e endereco no mesmo formulario.</span>
                 </div>
                 <div class="stat-card">
-                    <strong>Pronto para compra</strong>
-                    <span>O `id` gerado pode ser usado na compra da planilha.</span>
+                    <strong>Pronto para registro</strong>
+                    <span>O `id` gerado pode ser usado no registro da planilha.</span>
                 </div>
             </div>
         </div>
         <nav class="nav-tabs">
             <a th:href="@{/upload}">Importar arquivo</a>
             <a class="active" th:href="@{/usuarios/novo}">Criar usuario</a>
-            <a th:href="@{/planilhas/comprar}">Comprar planilha</a>
+            <a th:href="@{/planilhas/comprar}">Registrar planilha</a>
+            <a th:href="@{/comparacoes/nova}">Comparar planilhas</a>
         </nav>
     </section>
 
@@ -74,7 +75,7 @@
                 </div>
                 <div class="cta-row">
                     <button class="btn btn-primary" type="submit">Salvar usuario</button>
-                    <a class="btn btn-secondary" th:href="@{/planilhas/comprar}">Seguir para compra</a>
+                    <a class="btn btn-secondary" th:href="@{/planilhas/comprar}">Seguir para registro</a>
                 </div>
             </form>
 
@@ -89,7 +90,7 @@
         <aside class="panel">
             <h3>Dica de fluxo</h3>
             <ul class="info-list">
-                <li>Cadastre o usuario primeiro para ter o `id` disponivel na compra da planilha.</li>
+                <li>Cadastre o usuario primeiro para ter o `id` disponivel no registro da planilha.</li>
                 <li>Se a API de usuarios nao estiver rodando na porta `8080`, o envio nao vai concluir.</li>
                 <li>Depois do cadastro, copie o `id` mostrado no cartao de resultado.</li>
             </ul>

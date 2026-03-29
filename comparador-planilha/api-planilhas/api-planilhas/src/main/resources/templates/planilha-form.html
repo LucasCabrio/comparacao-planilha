@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprar Planilha</title>
+    <title>Registrar Planilha</title>
     <link rel="stylesheet" th:href="@{/css/portal.css}">
 </head>
 <body>
 <main class="page-shell">
     <section class="hero">
-        <span class="eyebrow">Compra de Planilha</span>
+        <span class="eyebrow">Cadastro de Planilha</span>
         <div class="hero-grid">
             <div>
-                <h1>Registre a compra da planilha com contexto do arquivo e vinculo ao usuario.</h1>
-                <p>Informe os dados tecnicos da planilha e associe o `usuarioId` de quem esta realizando a compra.</p>
+                <h1>Registre a planilha com contexto do arquivo e vinculo ao usuario.</h1>
+                <p>Informe os dados tecnicos da planilha e associe o `usuarioId` responsavel pelo registro.</p>
             </div>
             <div class="quick-stats">
                 <div class="stat-card">
                     <strong>Validacao no backend</strong>
-                    <span>A compra so e salva quando o usuario existe na API de usuarios.</span>
+                    <span>A planilha so e salva quando o usuario existe na API de usuarios.</span>
                 </div>
                 <div class="stat-card">
                     <strong>Visao rapida</strong>
@@ -29,13 +29,14 @@
         <nav class="nav-tabs">
             <a th:href="@{/upload}">Importar arquivo</a>
             <a th:href="@{/usuarios/novo}">Criar usuario</a>
-            <a class="active" th:href="@{/planilhas/comprar}">Comprar planilha</a>
+            <a class="active" th:href="@{/planilhas/comprar}">Registrar planilha</a>
+            <a th:href="@{/comparacoes/nova}">Comparar planilhas</a>
         </nav>
     </section>
 
     <section class="content-grid">
         <article class="panel">
-            <h2>Nova compra</h2>
+            <h2>Nova planilha</h2>
             <p>Esses dados sao enviados para a API de planilhas e vinculados ao usuario informado.</p>
 
             <div class="feedback" th:if="${mensagem}" th:text="${mensagem}"></div>
@@ -78,13 +79,13 @@
                     </div>
                 </div>
                 <div class="cta-row">
-                    <button class="btn btn-primary" type="submit">Registrar compra</button>
+                    <button class="btn btn-primary" type="submit">Registrar planilha</button>
                     <a class="btn btn-secondary" th:href="@{/usuarios/novo}">Cadastrar outro usuario</a>
                 </div>
             </form>
 
             <div class="result-card" th:if="${planilhaCriada != null}">
-                <strong>Compra registrada</strong>
+                <strong>Planilha registrada</strong>
                 <span>Planilha: <b th:text="${planilhaCriada.nomePlanilha}"></b></span><br>
                 <span>Usuario: <b th:text="${planilhaCriada.usuarioId}"></b></span><br>
                 <span>Linhas x colunas: <b th:text="${planilhaCriada.qtdLinhas + ' x ' + planilhaCriada.qtdColunas}"></b></span>

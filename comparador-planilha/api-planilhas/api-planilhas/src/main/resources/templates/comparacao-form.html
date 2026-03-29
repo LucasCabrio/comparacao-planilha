@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparar Planilhas</title>
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
+</head>
+<body>
+<main class="page-shell">
+    <section class="hero">
+        <span class="eyebrow">Comparacao de Planilhas</span>
+        <div class="hero-grid">
+            <div>
+                <h1>Compare planilhas ja cadastradas e veja o score calculado automaticamente.</h1>
+                <p>Escolha duas planilhas existentes no banco, adicione uma descricao opcional e envie para gerar a comparacao.</p>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <strong>Base existente</strong>
+                    <span>A selecao usa as planilhas que ja foram registradas na API.</span>
+                </div>
+                <div class="stat-card">
+                    <strong>Score automatico</strong>
+                    <span>O backend calcula a similaridade com base em linhas e colunas.</span>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-tabs">
+            <a th:href="@{/upload}">Importar arquivo</a>
+            <a th:href="@{/usuarios/novo}">Criar usuario</a>
+            <a th:href="@{/planilhas/comprar}">Registrar planilha</a>
+            <a class="active" th:href="@{/comparacoes/nova}">Comparar planilhas</a>
+        </nav>
+    </section>
+
+    <section class="content-grid">
+        <article class="panel">
+            <h2>Nova comparacao</h2>
+            <p>Selecione a planilha base e a planilha de comparacao. O resultado fica salvo e exibido logo abaixo.</p>
+
+            <div class="feedback" th:if="${mensagem}" th:text="${mensagem}"></div>
+            <div class="feedback-error" th:if="${erro}" th:text="${erro}"></div>
+
+            <form th:action="@{/comparacoes/nova}" th:object="${comparacao}" method="post">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="planilhaInicialId">Planilha inicial</label>
+                        <select id="planilhaInicialId" th:field="*{planilhaInicialId}" required>
+                            <option value="">Selecione uma planilha</option>
+                            <option th:each="planilha : ${planilhasDisponiveis}"
+                                    th:value="${planilha.id}"
+                                    th:text="${planilha.nomePlanilha + ' (' + planilha.id + ')'}"></option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="planilhaComparacaoId">Planilha para comparar</label>
+                        <select id="planilhaComparacaoId" th:field="*{planilhaComparacaoId}" required>
+                            <option value="">Selecione uma planilha</option>
+                            <option th:each="planilha : ${planilhasDisponiveis}"
+                                    th:value="${planilha.id}"
+                                    th:text="${planilha.nomePlanilha + ' (' + planilha.id + ')'}"></option>
+                        </select>
+                    </div>
+                    <div class="field full">
+                        <label for="descricao">Descricao</label>
+                        <input id="descricao" type="text" th:field="*{descricao}" placeholder="Ex.: comparacao entre versao original e revisada">
+                        <small>Campo opcional para identificar melhor essa comparacao.</small>
+                    </div>
+                </div>
+                <div class="cta-row">
+                    <button class="btn btn-primary" type="submit">Comparar agora</button>
+                    <a class="btn btn-secondary" th:href="@{/planilhas/comprar}">Cadastrar outra planilha</a>
+                </div>
+            </form>
+
+            <div class="result-card" th:if="${comparacaoCriada != null}">
+                <strong>Comparacao registrada</strong>
+                <span>Score: <b th:text="${comparacaoCriada.score + '%'}"></b></span><br>
+                <span>Planilha inicial: <b th:text="${comparacaoInicial != null ? comparacaoInicial.nomePlanilha : comparacaoCriada.planilhaInicialId}"></b></span><br>
+                <span>Planilha comparada: <b th:text="${comparacaoSecundaria != null ? comparacaoSecundaria.nomePlanilha : comparacaoCriada.planilhaComparacaoId}"></b></span><br>
+                <span>Descricao: <b th:text="${#strings.isEmpty(comparacaoCriada.descricao) ? 'Sem descricao' : comparacaoCriada.descricao}"></b></span>
+            </div>
+        </article>
+
+        <aside class="panel">
+            <h3>Planilhas disponiveis</h3>
+            <ul class="info-list" th:if="${planilhasDisponiveis != null and !#lists.isEmpty(planilhasDisponiveis)}">
+                <li th:each="planilha : ${planilhasDisponiveis}">
+                    <strong th:text="${planilha.nomePlanilha}"></strong>
+                    <span th:text="${'ID: ' + planilha.id}"></span><br>
+                    <span th:text="${planilha.qtdLinhas + ' linhas x ' + planilha.qtdColunas + ' colunas'}"></span>
+                </li>
+            </ul>
+            <ul class="info-list" th:if="${planilhasDisponiveis == null or #lists.isEmpty(planilhasDisponiveis)}">
+                <li>Nenhuma planilha foi encontrada no banco. Cadastre pelo menos duas para iniciar uma comparacao.</li>
+            </ul>
+
+            <h3 th:if="${comparacoesRecentes != null and !#lists.isEmpty(comparacoesRecentes)}">Comparacoes recentes</h3>
+            <ul class="info-list" th:if="${comparacoesRecentes != null and !#lists.isEmpty(comparacoesRecentes)}">
+                <li th:each="comparacaoItem : ${comparacoesRecentes}">
+                    <strong th:text="${'Score: ' + comparacaoItem.score + '%'}"></strong>
+                    <span th:text="${comparacaoItem.descricao != null and !#strings.isEmpty(comparacaoItem.descricao) ? comparacaoItem.descricao : 'Sem descricao'}"></span><br>
+                    <span th:text="${'Criada em: ' + #temporals.format(comparacaoItem.dataComparacao, 'dd/MM/yyyy HH:mm')}"></span>
+                </li>
+            </ul>
+        </aside>
+    </section>
+</main>
+</body>
+</html>

@@ -13,7 +13,7 @@
         <div class="hero-grid">
             <div>
                 <h1>Importe arquivos CSV com uma interface mais clara e agradável.</h1>
-                <p>Envie a planilha, acompanhe o resultado da leitura e mantenha o fluxo de cadastro e compra no mesmo portal visual.</p>
+                <p>Envie a planilha, acompanhe o resultado da leitura e mantenha o fluxo de cadastro e registro no mesmo portal visual.</p>
             </div>
             <div class="quick-stats">
                 <div class="stat-card">
@@ -22,14 +22,15 @@
                 </div>
                 <div class="stat-card">
                     <strong>Mesmo padrao visual</strong>
-                    <span>Cadastro de usuario e compra de planilha seguem a mesma identidade.</span>
+                    <span>Cadastro de usuario e registro de planilha seguem a mesma identidade.</span>
                 </div>
             </div>
         </div>
         <nav class="nav-tabs">
             <a class="active" th:href="@{/upload}">Importar arquivo</a>
             <a th:href="@{/usuarios/novo}">Criar usuario</a>
-            <a th:href="@{/planilhas/comprar}">Comprar planilha</a>
+            <a th:href="@{/planilhas/comprar}">Registrar planilha</a>
+            <a th:href="@{/comparacoes/nova}">Comparar planilhas</a>
         </nav>
     </section>
 
@@ -50,7 +51,7 @@
                 </div>
                 <div class="cta-row">
                     <button class="btn btn-primary" type="submit">Importar agora</button>
-                    <a class="btn btn-secondary" th:href="@{/planilhas/comprar}">Ir para compra de planilha</a>
+                    <a class="btn btn-secondary" th:href="@{/planilhas/comprar}">Ir para registro de planilha</a>
                 </div>
             </form>
 
@@ -87,7 +88,7 @@
             <ul class="info-list">
                 <li>Suba o CSV para popular rapidamente a colecao de usuarios importados.</li>
                 <li>Use a tela de cadastro para registrar um usuario completo na API de usuarios.</li>
-                <li>Associe o `usuarioId` na compra da planilha para concluir o fluxo.</li>
+                <li>Associe o `usuarioId` no registro da planilha para concluir o fluxo.</li>
             </ul>
         </aside>
     </section>
