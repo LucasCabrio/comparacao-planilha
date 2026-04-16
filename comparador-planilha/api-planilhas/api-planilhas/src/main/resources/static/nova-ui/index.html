@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Orbit | Comparacao de Planilhas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="hero">
+            <nav class="topbar">
+                <div>
+                    <p class="eyebrow">Nova experiencia web</p>
+                    <h1>Orbit Control Panel</h1>
+                </div>
+                <div class="topbar-actions">
+                    <a class="ghost-link" href="/upload">Thymeleaf atual</a>
+                    <button id="refreshAllBtn" class="secondary-button" type="button">Atualizar tudo</button>
+                </div>
+            </nav>
+
+            <div class="hero-grid">
+                <section class="hero-copy glass-card">
+                    <p class="section-kicker">Frontend paralelo</p>
+                    <h2>Uma interface nova em HTML, CSS e JavaScript para consumir todos os recursos do projeto.</h2>
+                    <p>
+                        A aplicacao existente continua intacta. Esta nova camada oferece cadastros, consultas,
+                        uploads e comparacoes em uma UI responsiva, moderna e separada do Thymeleaf.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="primary-link" href="#usuarios">Explorar modulos</a>
+                        <a class="ghost-link" href="#endpoints">Ver endpoints</a>
+                    </div>
+                </section>
+
+                <aside class="metrics-panel glass-card">
+                    <div class="metric">
+                        <span id="usuariosCount">--</span>
+                        <small>Usuarios</small>
+                    </div>
+                    <div class="metric">
+                        <span id="planilhasCount">--</span>
+                        <small>Planilhas</small>
+                    </div>
+                    <div class="metric">
+                        <span id="comparacoesCount">--</span>
+                        <small>Comparacoes</small>
+                    </div>
+                    <div class="metric">
+                        <span id="importacoesCount">--</span>
+                        <small>Importacoes</small>
+                    </div>
+                </aside>
+            </div>
+        </header>
+
+        <main class="content-grid">
+            <section id="endpoints" class="glass-card endpoint-card">
+                <p class="section-kicker">Mapa da API</p>
+                <h3>Recursos cobertos nesta interface</h3>
+                <div class="endpoint-list">
+                    <article>
+                        <strong>Usuarios</strong>
+                        <code>GET /frontend-api/usuarios</code>
+                        <code>GET /frontend-api/usuarios/{id}</code>
+                        <code>POST /frontend-api/usuarios</code>
+                    </article>
+                    <article>
+                        <strong>Planilhas</strong>
+                        <code>GET /planilhas</code>
+                        <code>GET /planilhas/{id}</code>
+                        <code>POST /planilhas</code>
+                    </article>
+                    <article>
+                        <strong>Comparacoes</strong>
+                        <code>GET /comparacoes</code>
+                        <code>GET /comparacoes/{id}</code>
+                        <code>POST /comparacoes</code>
+                    </article>
+                    <article>
+                        <strong>Importacao CSV</strong>
+                        <code>GET /importdata</code>
+                        <code>POST /importdata</code>
+                    </article>
+                </div>
+            </section>
+
+            <section id="usuarios" class="module-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Modulo 01</p>
+                        <h3>Usuarios</h3>
+                    </div>
+                    <button class="secondary-button" type="button" data-refresh="usuarios">Atualizar</button>
+                </div>
+
+                <div class="module-layout">
+                    <form id="usuarioForm" class="glass-card form-card">
+                        <h4>Novo usuario</h4>
+                        <div class="field-grid">
+                            <label><span>Nome</span><input name="nome" required></label>
+                            <label><span>Telefone</span><input name="telefone" required></label>
+                            <label><span>Logradouro</span><input name="logradouro" required></label>
+                            <label><span>Numero</span><input name="numero" required></label>
+                            <label><span>Cidade</span><input name="cidade" required></label>
+                            <label><span>Bairro</span><input name="bairro" required></label>
+                            <label><span>CEP</span><input name="cep" required></label>
+                        </div>
+                        <button class="primary-button" type="submit">Cadastrar usuario</button>
+                    </form>
+
+                    <div class="glass-card results-card">
+                        <div class="search-inline">
+                            <input id="usuarioIdInput" placeholder="Buscar usuario por ID">
+                            <button class="secondary-button" type="button" data-search="usuario">Buscar</button>
+                        </div>
+                        <pre id="usuarioSearchResult" class="search-result">Nenhuma busca realizada.</pre>
+                        <div id="usuariosList" class="result-grid"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="planilhas" class="module-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Modulo 02</p>
+                        <h3>Planilhas</h3>
+                    </div>
+                    <button class="secondary-button" type="button" data-refresh="planilhas">Atualizar</button>
+                </div>
+
+                <div class="module-layout">
+                    <form id="planilhaForm" class="glass-card form-card">
+                        <h4>Registrar planilha</h4>
+                        <div class="field-grid">
+                            <label><span>Nome da planilha</span><input name="nomePlanilha" required></label>
+                            <label><span>Tamanho do arquivo (MB)</span><input name="tamanhoArquivo" type="number" step="0.01" required></label>
+                            <label><span>Quantidade de linhas</span><input name="qtdLinhas" type="number" required></label>
+                            <label><span>Quantidade de colunas</span><input name="qtdColunas" type="number" required></label>
+                            <label><span>ID do usuario</span><input name="usuarioId" required></label>
+                            <label class="toggle-field">
+                                <span>Status</span>
+                                <select name="status">
+                                    <option value="true">Ativa</option>
+                                    <option value="false">Inativa</option>
+                                </select>
+                            </label>
+                        </div>
+                        <button class="primary-button" type="submit">Salvar planilha</button>
+                    </form>
+
+                    <div class="glass-card results-card">
+                        <div class="search-inline">
+                            <input id="planilhaIdInput" placeholder="Buscar planilha por ID">
+                            <button class="secondary-button" type="button" data-search="planilha">Buscar</button>
+                        </div>
+                        <pre id="planilhaSearchResult" class="search-result">Nenhuma busca realizada.</pre>
+                        <div id="planilhasList" class="result-grid"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="comparacoes" class="module-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Modulo 03</p>
+                        <h3>Comparacoes</h3>
+                    </div>
+                    <button class="secondary-button" type="button" data-refresh="comparacoes">Atualizar</button>
+                </div>
+
+                <div class="module-layout">
+                    <form id="comparacaoForm" class="glass-card form-card">
+                        <h4>Comparar planilhas</h4>
+                        <div class="field-grid">
+                            <label><span>ID planilha inicial</span><input name="planilhaInicialId" required></label>
+                            <label><span>ID planilha comparacao</span><input name="planilhaComparacaoId" required></label>
+                            <label class="full-width"><span>Descricao</span><textarea name="descricao" rows="4" required></textarea></label>
+                        </div>
+                        <button class="primary-button" type="submit">Executar comparacao</button>
+                    </form>
+
+                    <div class="glass-card results-card">
+                        <div class="search-inline">
+                            <input id="comparacaoIdInput" placeholder="Buscar comparacao por ID">
+                            <button class="secondary-button" type="button" data-search="comparacao">Buscar</button>
+                        </div>
+                        <pre id="comparacaoSearchResult" class="search-result">Nenhuma busca realizada.</pre>
+                        <div id="comparacoesList" class="result-grid"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="importacoes" class="module-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Modulo 04</p>
+                        <h3>Importacao CSV</h3>
+                    </div>
+                    <button class="secondary-button" type="button" data-refresh="importacoes">Atualizar</button>
+                </div>
+
+                <div class="module-layout import-layout">
+                    <form id="importForm" class="glass-card form-card">
+                        <h4>Enviar arquivo</h4>
+                        <label class="upload-field">
+                            <span>Arquivo CSV</span>
+                            <input name="file" type="file" accept=".csv" required>
+                        </label>
+                        <button class="primary-button" type="submit">Importar arquivo</button>
+                        <p class="hint-text">Os registros retornados serao exibidos ao lado apos o upload.</p>
+                    </form>
+
+                    <div class="glass-card results-card">
+                        <pre id="importSearchResult" class="search-result">Nenhum upload realizado.</pre>
+                        <div id="importacoesList" class="result-grid"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <section id="feedback" class="toast hidden" aria-live="polite"></section>
+    </div>
+
+    <script src="/nova-ui/app.js"></script>
+</body>
+</html>
